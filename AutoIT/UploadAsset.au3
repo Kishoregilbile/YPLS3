@@ -1,0 +1,5 @@
+ControlFocus("Open","","Edit1")
+Sleep(2000)
+ControlSetText("Open","","Edit1","C:\Users\kishore.gilbile\Documents\Test Documents\Leadership Influence Activity Form.pdf" )
+Sleep(2000)
+ControlClick("Open","","Button1")

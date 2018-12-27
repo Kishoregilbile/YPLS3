@@ -236,7 +236,7 @@ public class ManageAssetPage extends BaseClass
 		
 		driver.manage().timeouts().implicitlyWait(Utility.Implicit_wait, TimeUnit.SECONDS);
 		
-		Runtime.getRuntime().exec("D:\\Kishore\\Technology Projects\\Automation\\Workspaces\\YPLS\\UploadAsset.exe");
+		Runtime.getRuntime().exec("D:\\Kishore\\Technology Projects\\Automation\\Workspaces\\YPLS\\YPLS\\AutoIT\\UploadAsset.exe");
 		
 		driver.manage().timeouts().implicitlyWait(Utility.Implicit_wait, TimeUnit.SECONDS);
 		

@@ -131,7 +131,7 @@ public class AddCoursePage extends BaseClass
 		driver.manage().timeouts().implicitlyWait(Utility.Implicit_wait, TimeUnit.SECONDS);
 		chooseFile.click();
 		
-		Runtime.getRuntime().exec("D:\\Kishore\\Technology Projects\\Automation\\Workspaces\\YPLS\\UploadCourse.exe");
+		Runtime.getRuntime().exec("D:\\Kishore\\Technology Projects\\Automation\\Workspaces\\YPLS\\YPLS\\AutoIT\\UploadCourse.exe");
 		
 		zipFile.click();
 		

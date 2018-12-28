@@ -129,9 +129,9 @@ public class AddCoursePage extends BaseClass
 			coursedropdownValue.click();
 		}
 		driver.manage().timeouts().implicitlyWait(Utility.Implicit_wait, TimeUnit.SECONDS);
-		chooseFile.click();
+		chooseFile.sendKeys("C:\\Users\\kishore.gilbile\\Documents\\Test Documents\\YPLS\\Course\\Adaptive Solution - Demo Course Updated.zip");
 		
-		Runtime.getRuntime().exec("D:\\Kishore\\Technology Projects\\Automation\\Workspaces\\YPLS\\YPLS\\AutoIT\\UploadCourse.exe");
+		//Runtime.getRuntime().exec("D:\\Kishore\\Technology Projects\\Automation\\Workspaces\\YPLS\\YPLS\\AutoIT\\UploadCourse.exe");
 		
 		zipFile.click();
 		

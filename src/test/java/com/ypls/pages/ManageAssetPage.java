@@ -232,11 +232,11 @@ public class ManageAssetPage extends BaseClass
 	
 	public void uploadPDF() throws IOException, Exception
 	{
-		uploadNewAsset.click();
+		uploadNewAsset.sendKeys("C:\\Users\\kishore.gilbile\\Documents\\Test Documents\\eLearning Frequently Asked Questions.pdf");
 		
-		driver.manage().timeouts().implicitlyWait(Utility.Implicit_wait, TimeUnit.SECONDS);
-		
-		Runtime.getRuntime().exec("D:\\Kishore\\Technology Projects\\Automation\\Workspaces\\YPLS\\YPLS\\AutoIT\\UploadAsset.exe");
+		//driver.manage().timeouts().implicitlyWait(Utility.Implicit_wait, TimeUnit.SECONDS);
+		//Runtime.getRuntime().exec("C:\\Users\\kishore.gilbile\\Documents\\Test Documents\\eLearning Frequently Asked Questions.pdf");
+		//driver.findElement(By.id("ctl00_cphContent_UploadAsset_Html5InputFile")).sendKeys("C:\\Users\\kishore.gilbile\\Documents\\Test Documents\\eLearning Frequently Asked Questions.pdf");
 		
 		driver.manage().timeouts().implicitlyWait(Utility.Implicit_wait, TimeUnit.SECONDS);
 		

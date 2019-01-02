@@ -2,7 +2,9 @@ package com.ypls.pages;
 
 import java.awt.AWTException;
 import java.io.IOException;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
 import org.junit.Assert;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -15,12 +17,28 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.ypls.base.BaseClass;
+import com.ypls.utility.CaptureScreen;
 import com.ypls.utility.Utility;
 
-public class AddCoursePage extends BaseClass
+public class ManageCoursesPage extends BaseClass
 {
+	@FindBy(how=How.XPATH, using="//*[@id=\"UserName\"]")
+	WebElement username;
+	
+	@FindBy(how=How.XPATH, using="//*[@id=\"Password\"]")
+	WebElement password;
+	
+	@FindBy(how=How.XPATH, using="//*[@onclick='submitshowLoader();']")
+	WebElement login;
+	
+	@FindBy(how=How.XPATH,using="//*[@title='Learning Management System']/span[contains(text(),'Launch')]")
+	WebElement lms;
+	
 	@FindBy(how=How.XPATH,using="//*[@class='yp-back']")
 	WebElement ypback;
+	
+	/*@FindBy(how=How.XPATH,using="//*[@class='yp-back']")
+	WebElement ypback;*//*===============================================*/
 	
 	@FindBy(how=How.ID, using="showLeftPush")
 	WebElement menuButton;
@@ -85,9 +103,51 @@ public class AddCoursePage extends BaseClass
 	@FindBy(how=How.ID, using="ctl00_cphContent_btnCancel")
 	WebElement cancelButton;
 	
-	public AddCoursePage()
+	@FindBy(how=How.XPATH, using="//*[@class='zmdi zmdi-eye zmdi-hc-fw']")
+	WebElement previewButton;
+	
+	@FindBy(how=How.ID, using="ctl00_lblUserName")
+	WebElement logoutlink;
+	
+	@FindBy(how=How.ID, using="ctl00_btnLogout")
+	WebElement logout;
+	
+	@FindBy(how=How.XPATH, using="//*[@id=\"ctl00_cphContent_gvCourseList\"]/tbody/tr[2]/td/span")
+	WebElement noRecordMessage;
+	
+	public ManageCoursesPage()
 	{
 		PageFactory.initElements(driver, this);
+	}
+	
+	public void provideLoginDetails()
+	{
+		username.sendKeys(prop.getProperty("username"));
+		
+		password.sendKeys(prop.getProperty("password"));
+	}
+	
+	public void clickLogin()
+	{
+		login.click();
+		
+		driver.manage().timeouts().implicitlyWait(Utility.Implicit_wait, TimeUnit.SECONDS);
+	}
+	
+	public void verifyLogin()
+	{
+		Assert.assertTrue("User is Not logged in.", lms.isDisplayed());
+	}
+	
+	public void clickLMS()
+	{
+		lms.click();
+		
+		driver.manage().timeouts().implicitlyWait(Utility.Implicit_wait, TimeUnit.SECONDS);
+		
+		Assert.assertTrue("Dashboard is not displyed.", ypback.isDisplayed());	
+		
+		//return new AddCoursePage();
 	}
 	
 	public void verifyUser()
@@ -124,14 +184,14 @@ public class AddCoursePage extends BaseClass
 		
 		try {
 			coursedropdownValue.click();
+			driver.manage().timeouts().implicitlyWait(Utility.Implicit_wait, TimeUnit.SECONDS);
 		} catch (Exception e) {
-			driver.manage().timeouts().implicitlyWait(Utility.long_implicit_wait, TimeUnit.SECONDS);
+			//driver.manage().timeouts().implicitlyWait(Utility.long_implicit_wait, TimeUnit.SECONDS);
+			Thread.sleep(10000);
 			coursedropdownValue.click();
 		}
 		driver.manage().timeouts().implicitlyWait(Utility.Implicit_wait, TimeUnit.SECONDS);
 		chooseFile.sendKeys("C:\\Users\\kishore.gilbile\\Documents\\Test Documents\\YPLS\\Course\\Adaptive Solution - Demo Course Updated.zip");
-		
-		//Runtime.getRuntime().exec("D:\\Kishore\\Technology Projects\\Automation\\Workspaces\\YPLS\\YPLS\\AutoIT\\UploadCourse.exe");
 		
 		zipFile.click();
 		
@@ -186,10 +246,81 @@ public class AddCoursePage extends BaseClass
 		
 		searchCourseButton.click();
 		
+		driver.manage().timeouts().implicitlyWait(Utility.long_implicit_wait, TimeUnit.SECONDS);
+		
+		
+			/*Assert.assertEquals("Did not find the course", noRecordMessage.getText(), "No records found.");
+		
+			Assert.assertEquals("Found the Course. Course is added successfully.", Utility.Course_Name, Utility.Course_Name);*/
+		
+				String courseText = searchCourseText.getText();
+				System.out.println("course text is::::::" + courseText);
+				
+				if(Utility.Course_Name.equals(courseText))
+					System.out.println("Found the Course which was uploaded." +Utility.Course_Name);
+				else
+				{
+					if(!Utility.Course_Name.equals(courseText))
+						System.out.println("Course is added successfully, but found different course." +courseText);
+					else
+						System.out.println("Did not find the course at all.");
+				}
+	}
+	
+	public void verifyCourse()
+	{
+		Boolean a = previewButton.isDisplayed();
+		System.out.println(a);
+		Assert.assertTrue("Course is displayed", a);
+	}
+	
+	public void clickPreview()
+	{
+		previewButton.click();
+		
+		driver.manage().timeouts().implicitlyWait(Utility.Implicit_wait, TimeUnit.SECONDS);
+	}
+	
+	public void verifyCourseLauch() throws IOException, InterruptedException
+	{
 		driver.manage().timeouts().implicitlyWait(Utility.Implicit_wait, TimeUnit.SECONDS);
 		
-		String courseText = searchCourseText.getText();
+		for(String c_window : driver.getWindowHandles())
+		{
+			driver.switchTo().window(c_window);
+
+			System.out.println("The URL is: " +driver.getCurrentUrl());
+		}
 		
-		Assert.assertEquals("Found the Course", Utility.Course_Name, courseText);
+		driver.manage().window().maximize();
+		
+		driver.manage().timeouts().implicitlyWait(Utility.long_implicit_wait, TimeUnit.SECONDS);
+		
+		Thread.sleep(5000);
+		
+		driver.switchTo().frame("ContentSrvFrame");
+		
+		Thread.sleep(5000);
+		
+		driver.switchTo().frame("mainFrame");
+		
+		String timestamp = null;
+		try {
+			driver.findElement(By.xpath("//*[@class='clsEnterBtn']")).click();
+			Set<String> handles = driver.getWindowHandles();
+			for(String handle : handles)
+			{
+				driver.switchTo().window(handle);
+			}
+			System.out.println("The current URL of the launched course is: " +driver.getCurrentUrl());
+			CaptureScreen.CourseScreenCapture(timestamp);
+			driver.close();
+			driver.manage().timeouts().implicitlyWait(Utility.Implicit_wait, TimeUnit.SECONDS);
+			} catch (Exception e) {
+				System.out.println("Cannot launch the course.");
+				timestamp = Utility.DateTime();
+				CaptureScreen.CourseScreenCapture(timestamp);
+				driver.manage().timeouts().implicitlyWait(Utility.Implicit_wait, TimeUnit.SECONDS);
+			}
 	}
 }

@@ -177,7 +177,7 @@ public class ManageCoursesPage extends BaseClass
 	{
 		driver.manage().timeouts().implicitlyWait(Utility.Implicit_wait, TimeUnit.SECONDS);
 		
-		courseName.sendKeys(Utility.Course_Name);
+		courseName.sendKeys(Utility.CourseName);
 		
 		coursedropdown.click();
 		
@@ -192,7 +192,7 @@ public class ManageCoursesPage extends BaseClass
 		}
 		driver.manage().timeouts().implicitlyWait(Utility.Implicit_wait, TimeUnit.SECONDS);
 		
-		chooseFile.sendKeys(Utility.Course_path);
+		chooseFile.sendKeys(Utility.CoursePath);
 		
 		zipFile.click();
 		
@@ -242,7 +242,7 @@ public class ManageCoursesPage extends BaseClass
 	{	
 		driver.manage().timeouts().implicitlyWait(Utility.Implicit_wait, TimeUnit.SECONDS);
 
-		searchCourseName.sendKeys(Utility.Course_Name);
+		searchCourseName.sendKeys(Utility.CourseName);
 		
 		searchCourseButton.click();
 		
@@ -256,11 +256,11 @@ public class ManageCoursesPage extends BaseClass
 				String courseText = searchCourseText.getText();
 				System.out.println("course text is::::::" + courseText);
 				
-				if(Utility.Course_Name.equals(courseText))
-					System.out.println("Found the Course which was uploaded." +Utility.Course_Name);
+				if(Utility.CourseName.equals(courseText))
+					System.out.println("Found the Course which was uploaded." +Utility.CourseName);
 				else
 				{
-					if(!Utility.Course_Name.equals(courseText))
+					if(!Utility.CourseName.equals(courseText))
 						System.out.println("Course is added successfully, but found different course." +courseText);
 					else
 						System.out.println("Did not find the course at all.");

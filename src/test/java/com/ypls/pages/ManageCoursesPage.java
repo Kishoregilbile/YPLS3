@@ -235,7 +235,6 @@ public class ManageCoursesPage extends BaseClass
 			//alert.accept();
 			cancelButton.click();
 		}
-		
 		driver.manage().timeouts().implicitlyWait(Utility.Implicit_wait, TimeUnit.SECONDS);
 	}
 	

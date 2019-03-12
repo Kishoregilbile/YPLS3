@@ -34,5 +34,6 @@ pipeline
 									reportName: 'YPLS HTML Report', 
 									reportTitles: ''])	
 			}
+		}
 	}
 }

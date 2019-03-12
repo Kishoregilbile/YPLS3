@@ -48,7 +48,7 @@ public class BaseClass
 			driver = new InternetExplorerDriver();
 		}
 		
-		driver.get(prop.getProperty("url"));
+		driver.get(prop.getProperty("tenanturl"));
 		
 		driver.manage().window().maximize();
 	}

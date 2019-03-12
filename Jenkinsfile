@@ -3,14 +3,11 @@ pipeline
 	agent any
 	stages
 	{
-		stage ('Compile Stage')
+		stage ('GIT Checkout Stage')
 		{
 			steps
 			{
-				withMaven(maven : '3.5.3')
-				{
-					sh 'mvn clean compile'
-				}
+					checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Kishoregilbile/YPLS3.git']]])
 			}
 		}
 		
@@ -18,12 +15,24 @@ pipeline
 		{
 			steps
 			{
-				withMaven(maven : '3.5.3')
-				{
-					sh 'mvn test'
-				}
+				withMaven(maven: 'LMSMaven')
+					 {
+   				 		bat 'mvn clean install' //-Dcucumber.options=\"--tags @asset\"'
+				 	}
 			}
 		}
 		
+		stage ('HTML Reports')
+		{
+			steps
+			{
+				publishHTML([allowMissing: false, 
+									alwaysLinkToLastBuild: false, 
+									keepAll: false, 
+									reportDir: '/YPLS/output', 
+									reportFiles: 'YPLSReport.html', 
+									reportName: 'YPLS HTML Report', 
+									reportTitles: ''])	
+			}
 	}
 }

@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import org.junit.Assert;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -36,9 +37,6 @@ public class ManageCoursesPage extends BaseClass
 	
 	@FindBy(how=How.XPATH,using="//*[@class='yp-back']")
 	WebElement ypback;
-	
-	/*@FindBy(how=How.XPATH,using="//*[@class='yp-back']")
-	WebElement ypback;*//*===============================================*/
 	
 	@FindBy(how=How.ID, using="showLeftPush")
 	WebElement menuButton;
@@ -122,9 +120,9 @@ public class ManageCoursesPage extends BaseClass
 	
 	public void provideLoginDetails()
 	{
-		username.sendKeys(prop.getProperty("username"));
+		username.sendKeys(prop.getProperty("adminusername"));
 		
-		password.sendKeys(prop.getProperty("password"));
+		password.sendKeys(prop.getProperty("adminpassword"));
 	}
 	
 	public void clickLogin()
@@ -141,14 +139,17 @@ public class ManageCoursesPage extends BaseClass
 	
 	public void clickLMS()
 	{
-		lms.click();
-		
-		driver.manage().timeouts().implicitlyWait(Utility.Implicit_wait, TimeUnit.SECONDS);
-		
-		Assert.assertTrue("Dashboard is not displyed.", ypback.isDisplayed());	
-		
-		//return new AddCoursePage();
-	}
+		try {
+			lms.click();
+			
+			driver.manage().timeouts().implicitlyWait(Utility.Implicit_wait, TimeUnit.SECONDS);
+			
+			Assert.assertTrue("Dashboard is not displyed.", ypback.isDisplayed());
+		} catch (NoSuchElementException e) {
+			System.err.println("Tenant only has LMS Option available from the suite.");
+			e.printStackTrace();
+		}		
+}
 	
 	public void verifyUser()
 	{
@@ -186,12 +187,12 @@ public class ManageCoursesPage extends BaseClass
 			coursedropdownValue.click();
 			driver.manage().timeouts().implicitlyWait(Utility.Implicit_wait, TimeUnit.SECONDS);
 		} catch (Exception e) {
-			//driver.manage().timeouts().implicitlyWait(Utility.long_implicit_wait, TimeUnit.SECONDS);
 			Thread.sleep(10000);
 			coursedropdownValue.click();
 		}
 		driver.manage().timeouts().implicitlyWait(Utility.Implicit_wait, TimeUnit.SECONDS);
-		chooseFile.sendKeys("C:\\Users\\kishore.gilbile\\Documents\\Test Documents\\YPLS\\Course\\Adaptive Solution - Demo Course Updated.zip");
+		
+		chooseFile.sendKeys(Utility.Course_path);
 		
 		zipFile.click();
 		

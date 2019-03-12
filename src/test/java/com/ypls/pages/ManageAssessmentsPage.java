@@ -121,7 +121,7 @@ public class ManageAssessmentsPage extends BaseClass
 	public void addAssessmentDetails()
 	{
 		driver.switchTo().frame(assessmentEditor);
-		assessmentTextEditor.sendKeys("Assessment K1");
+		assessmentTextEditor.sendKeys(Utility.Assessment_Name);
 		driver.switchTo().defaultContent();
 		mainSaveButton.click();
 		//Thread.sleep(10000);
@@ -141,9 +141,9 @@ public class ManageAssessmentsPage extends BaseClass
 	{
 		optionsMenu.click();
 		driver.manage().timeouts().implicitlyWait(Utility.Implicit_wait, TimeUnit.SECONDS);
-		questionCount.sendKeys("5");
-		assessmentTime.sendKeys("2");
-		alertTime.sendKeys("1");
+		questionCount.sendKeys(Utility.Question_Count);
+		assessmentTime.sendKeys(Utility.Assessment_Time);
+		alertTime.sendKeys(Utility.Alert_Time);
 		driver.manage().timeouts().implicitlyWait(Utility.long_implicit_wait, TimeUnit.SECONDS);
 		assessmentResult.click();
 		//driver.manage().timeouts().implicitlyWait(Utility.long_implicit_wait, TimeUnit.SECONDS);
@@ -215,14 +215,13 @@ public class ManageAssessmentsPage extends BaseClass
 	
 	public void searchAssessment()
 	{
-		provideAssessmentName.sendKeys("Assessment K1");
+		provideAssessmentName.sendKeys(Utility.Assessment_Name);
 		clickSearch.click();
-		System.out.println("Assessment Found");
-		if(searchedText.getText().contains("Assessment K1"))
+		System.out.println("Assessment Found in Search.");
+		if(searchedText.getText().contains(Utility.Assessment_Name))
 		{
-			System.out.println("Reuqired Assessment found.");
 			sendForApprovalLink.click();
-			adminReviewEmail.sendKeys("abc@testmail.com");
+			adminReviewEmail.sendKeys(Utility.Assessment_ApprovalEmail);
 			sendForApproval.click();
 			try {
 				Alert alert = driver.switchTo().alert();
@@ -238,10 +237,10 @@ public class ManageAssessmentsPage extends BaseClass
 	
 	public void approveAssessment() throws InterruptedException
 	{
-		provideAssessmentName.sendKeys("Assessment K1");
+		provideAssessmentName.sendKeys(Utility.Assessment_Name);
 		clickSearch.click();
-		System.out.println("Assessment Found");
-		if(searchedText.getText().contains("Assessment K1"))
+		System.out.println("Assessment Found for approval.");
+		if(searchedText.getText().contains(Utility.Assessment_Name))
 		{
 			approvalLink.click();
 			Thread.sleep(10000);

@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 import org.junit.Assert;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -88,9 +89,9 @@ public class ManageAssetPage extends BaseClass
 	
 	public void provideLoginDetails()
 	{
-		username.sendKeys(prop.getProperty("username"));
+		username.sendKeys(prop.getProperty("adminusername"));
 		
-		password.sendKeys(prop.getProperty("password"));
+		password.sendKeys(prop.getProperty("adminpassword"));
 	}
 	
 	public void clickLogin()
@@ -107,11 +108,15 @@ public class ManageAssetPage extends BaseClass
 	
 	public void clickLMS()
 	{
-		lms.click();
-		
-		driver.manage().timeouts().implicitlyWait(Utility.Implicit_wait, TimeUnit.SECONDS);
-		
-		Assert.assertTrue("Dashboard is not displyed.", ypback.isDisplayed());	
+		try {
+			lms.click();
+			
+			driver.manage().timeouts().implicitlyWait(Utility.Implicit_wait, TimeUnit.SECONDS);
+			
+			Assert.assertTrue("Dashboard is not displyed.", ypback.isDisplayed());
+		} catch (NoSuchElementException e) {
+			System.err.println("Only LMS option is available from the Suite.");
+		}	
 	}
 	
 	public void clickMenu()
